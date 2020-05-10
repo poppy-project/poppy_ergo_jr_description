@@ -71,7 +71,7 @@
     type="continuous">
     <origin
       xyz="0 0 0.0327993216120967"
-      rpy="-6.12303176911189E-17 0 0" />
+      rpy="0 0 0" />
     <parent
       link="base_link" />
     <child
@@ -98,7 +98,7 @@
     <visual>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="0 1.5707963267949 0" />
       <geometry>
         <mesh
           filename="package://poppy_ergo_jr_description/meshes/section_1.dae" />
@@ -124,13 +124,13 @@
     type="continuous">
     <origin
       xyz="0 0 0.0240006783879033"
-      rpy="1.5707963267949 0 0" />
+      rpy="0 -1.5707963267949 0" />
     <parent
       link="long_U" />
     <child
       link="section_1" />
     <axis
-      xyz="1 0 0" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="section_2">
@@ -151,7 +151,7 @@
     <visual>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="0 1.5707963267949 0" />
       <geometry>
         <mesh
           filename="package://poppy_ergo_jr_description/meshes/section_2.dae" />
@@ -176,14 +176,14 @@
     name="m3"
     type="continuous">
     <origin
-      xyz="0 0 0.054"
+      xyz="0.054 0 0"
       rpy="0 0 0" />
     <parent
       link="section_1" />
     <child
       link="section_2" />
     <axis
-      xyz="1 0 0" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="section_3">
@@ -204,7 +204,7 @@
     <visual>
       <origin
         xyz="0 0 0"
-        rpy="0 0 0" />
+        rpy="0 3.14159268 0" />
       <geometry>
         <mesh
           filename="package://poppy_ergo_jr_description/meshes/section_3.dae" />
@@ -229,14 +229,14 @@
     name="m4"
     type="continuous">
     <origin
-      xyz="0 0 0.045"
-      rpy="0 0 3.14159265358979" />
+      xyz="0.045 0 0"
+      rpy="0 -1.5707963267949 0" />
     <parent
       link="section_2" />
     <child
       link="section_3" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
   </joint>
   <link
     name="section_4">
@@ -257,7 +257,7 @@
     <visual>
       <origin
         xyz="0 -0.058 0"
-        rpy="0 0 0" />
+        rpy="0 -1.5707963267949 0" />
       <geometry>
         <mesh
           filename="package://poppy_ergo_jr_description/meshes/section_4.dae" />
@@ -283,13 +283,13 @@
     type="continuous">
     <origin
       xyz="0 -0.048 0"
-      rpy="-1.5707963267949 0 0" />
+      rpy="0 -1.5707963267949 0" />
     <parent
       link="section_3" />
     <child
       link="section_4" />
     <axis
-      xyz="1 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="tip">
@@ -336,7 +336,7 @@
     type="continuous">
     <origin
       xyz="0 -0.058 0"
-      rpy="0 0 0" />
+      rpy="0 -1.5707963267949 0" />
     <parent
       link="section_4" />
     <child
