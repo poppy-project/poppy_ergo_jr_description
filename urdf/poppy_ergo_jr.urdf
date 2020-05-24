@@ -165,7 +165,14 @@
         <child link="section_4" />
         <axis xyz="0 0 1" />
     </joint>
-    <link name="tip">
+    <link name="fixed_tip"/>
+    <joint name="t7f" type="fixed">
+        <origin xyz="0 -0.11 0" rpy="-1.5707963267949 0 0" />
+        <parent link="section_4" />
+        <child link="fixed_tip" />
+    </joint>
+
+    <link name="section_5">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
@@ -191,10 +198,17 @@
     <joint name="m6" type="continuous">
         <origin xyz="0 -0.058 0" rpy="0 -1.5707963267949 0" />
         <parent link="section_4" />
-        <child link="tip" />
+        <child link="section_5" />
         <axis xyz="0 0 1" />
     </joint>
-    
+
+    <link name="moving_tip"/>
+    <joint name="t7m" type="fixed">
+        <origin xyz="0 -0.052 0" rpy="-1.5707963267949 0 0" />
+        <parent link="section_5" />
+        <child link="moving_tip" />
+    </joint>
+
 <transmission name="trans_m1">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="m1">
