@@ -68,7 +68,7 @@
         <technique sid="COMMON">
           <lambert>
             <diffuse>
-              <color>0.603922 0.647059 0.686275 1</color>
+              <color>0.960784 0.960784 0.960784 1</color>
             </diffuse>
           </lambert>
         </technique>
