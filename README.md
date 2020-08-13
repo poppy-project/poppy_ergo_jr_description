@@ -8,11 +8,17 @@ So far, only the gripper effector is supported. Using the lamp effector would re
 
 ## Quickstart
 
-Launch the following command in order to run RViz, visualize the robot and move the joints:
+Launch the following command in order to run RViz, visualize the robot and move the joints. If you want the lamp effector:
 ```
-roslaunch poppy_ergo_jr_description display.launch gui:=True
+roslaunch poppy_ergo_jr_description display.launch gui:=True lamp:=true
+```
+Or, if you want the gripper effector:
+```
+roslaunch poppy_ergo_jr_description display.launch gui:=True gripper:=true
 ```
 
 ## Roadmap
 
-* Drop the URDF for xacro in order to integrate the lamp effector 
+Feel free to open pull requests!
+
+* [ ] Integrate the pen holder effector to xacro 

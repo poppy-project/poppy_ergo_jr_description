@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>poppy_ergo_jr_description</name>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <description>ROS package for Poppy Ergo Jr</description>
   <maintainer email="yoan.mollard@poppy-station.org">Yoan Mollard</maintainer>
   <license>GPLv3</license>
@@ -11,6 +11,7 @@
   <depend>joint_state_publisher</depend>
   <depend>joint_state_publisher_gui</depend>
   <depend>rviz</depend>
+  <depend>xacro</depend>
   <buildtool_depend>catkin</buildtool_depend>
 
 
