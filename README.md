@@ -1,8 +1,7 @@
 # Poppy Ergo Jr description
 
-This ROS package contains URDF and collada files to use [Poppy Ergo Jr](https://www.poppy-project.org/en/robots/poppy-ergo-jr/) robot with ROS1 Melodic.
-The URDF contains also contains the collision model and is suitable for Gazebo simulations.
-So far, only the gripper effector is supported. Using the lamp effector would require to update the URDF.
+This ROS package contains URDF and collada files to use [Poppy Ergo Jr](https://www.poppy-project.org/en/robots/poppy-ergo-jr/) robot with ROS 1.
+The URDF contains also contains the collision model and is suitable for Gazebo simulations. The package has been tested with Melodic and Noetic.
 
 ![Poppy Ergo Jr in RViz ROS Melodic](./doc/img/rviz.png)
 
