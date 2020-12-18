@@ -1,8 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="poppy_ergo_jr">
+  <!-- Properties -->
+  <xacro:property name="namespace" value="ergo_jr" />
+
   <xacro:arg name="lamp" default="false"/>
   <xacro:arg name="gripper" default="false"/>
-  <link name="base_link">
+
+  <xacro:arg name="fixed" default="true"/>
+  <xacro:property name="is_fixed" value="true"/>
+
+  <!-- Macro to add a camera. -->
+  <xacro:macro name="camera_macro"
+    params="namespace parent_link camera_suffix frame_rate
+      horizontal_fov image_width image_height image_format min_distance
+      max_distance noise_mean noise_stddev enable_visual *cylinder *origin">
+    <link name="${namespace}/camera_${camera_suffix}_link">
+
+      <!-- <collision> -->
+      <!--   <origin xyz="0 0 0" rpy="0 0 0" /> -->
+      <!--   <geometry> -->
+      <!--     <xacro:insert_block name="cylinder" /> -->
+      <!--   </geometry> -->
+      <!-- </collision> -->
+
+      <xacro:if value="${enable_visual}">
+
+        <visual>
+          <origin xyz="0 0 0" rpy="0 1.57079632679 0" />
+          <geometry>
+            <xacro:insert_block name="cylinder" />
+          </geometry>
+          <material name="red">
+		     <color rgba="1 0 0 1"/>
+	  </material>
+        </visual>
+      </xacro:if>
+
+
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+    <joint name="${namespace}/camera_${camera_suffix}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="${namespace}/camera_${camera_suffix}_link" />
+    </joint>
+
+    <gazebo reference="${namespace}/camera_${camera_suffix}_link">
+      <sensor type="camera" name="${namespace}_camera_${camera_suffix}">
+        <update_rate>${frame_rate}</update_rate>
+        <camera name="head">
+          <horizontal_fov>${horizontal_fov}</horizontal_fov>
+          <image>
+            <width>${image_width}</width>
+            <height>${image_height}</height>
+            <format>${image_format}</format>
+          </image>
+          <clip>
+            <near>${min_distance}</near>
+            <far>${max_distance}</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <!-- Noise is sampled independently per pixel on each frame.
+                 That pixel's noise value is added to each of its color
+                 channels, which at that point lie in the range [0,1]. -->
+            <mean>${noise_mean}</mean>
+            <stddev>${noise_stddev}</stddev>
+          </noise>
+        </camera>
+        <plugin name="${namespace}_camera_${camera_suffix}_controller" filename="libgazebo_ros_camera.so">
+          <robotNamespace>${namespace}</robotNamespace>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>${frame_rate}</updateRate>
+          <cameraName>camera_${camera_suffix}</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>camera_${camera_suffix}_link</frameName>
+          <hackBaseline>0.0</hackBaseline>
+	  <Cx>2.0500638605704751e+02</Cx>
+	  <Cy>1.5106876398089261e+02</Cy>
+	  <focalLength>3.2390967091609349e+02</focalLength>
+          <distortionK1>1.4043219721770492e-01</distortionK1>
+          <distortionK2>-1.3210129724889583e-01</distortionK2>
+          <distortionK3>-3.6452869939025279e-01</distortionK3>
+          <distortionT1>-5.1782301614838704e-04</distortionT1>
+          <distortionT2>-5.2090817919999092e-03</distortionT2>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
+
+<xacro:camera_macro
+    namespace="${namespace}"
+    parent_link="base_link"
+    camera_suffix="ergo"
+    frame_rate="30.0"
+    horizontal_fov="1.12825740656329"
+    image_width="800"
+    image_height="600"
+    image_format="R8G8B8"
+    min_distance="0.02"
+    max_distance="400"
+    noise_mean="0.0"
+    noise_stddev="0.001"
+    enable_visual="True"
+    >
+    <!-- <box size="0.01 0.01 0.01" /> -->
+    <cylinder length="0.01" radius="0.007" />
+    <origin xyz="0.0 -0.025 0.02" rpy="0 -0.39269908169872414 -1.57079632679"/>
+
+</xacro:camera_macro>
+
+
+<xacro:if value="$(arg fixed)">
+<link name="world"/>
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+</xacro:if>
+ <link name="base_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -13,12 +136,35 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0.038 0.015" rpy="0 0 0" />
+      <origin xyz="0 0.038 0.0" rpy="0 0 0" />
       <geometry>
-        <cylinder length="0.03" radius="0.08" />
+        <cylinder length="0.005" radius="0.08" />
       </geometry>
+
+      <surface>
+            <contact>
+              <ode>
+                <max_vel>0</max_vel>
+                <min_depth>0.01</min_depth>
+		<kp>1e15</kp>
+		<kd>1e13</kd>
+              </ode>
+            </contact>
+      </surface>
+
     </collision>
+
+    <xacro:if value="${is_fixed == 'false'}">
+    <inertial>
+      <mass value="0.250" />
+      <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+    </inertial>
+    </xacro:if>
   </link>
+
+
+
+
   <link name="long_U">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -34,9 +180,21 @@
       <geometry>
         <cylinder length="0.02" radius="0.02" />
       </geometry>
+
+      <surface>
+            <contact>
+              <ode>
+                <max_vel>0</max_vel>
+                <min_depth>0.01</min_depth>
+		<kp>1e15</kp>
+		<kd>1e13</kd>
+              </ode>
+            </contact>
+      </surface>
+
     </collision>
     <inertial>
-      <mass value="0.1" />
+      <mass value="0.05" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
@@ -45,6 +203,7 @@
     <parent link="base_link" />
     <child link="long_U" />
     <axis xyz="0 0 1" />
+
   </joint>
   <link name="section_1">
     <visual>
@@ -61,9 +220,21 @@
       <geometry>
         <cylinder length="0.05" radius="0.02" />
       </geometry>
+
+      <surface>
+            <contact>
+              <ode>
+                <max_vel>0</max_vel>
+                <min_depth>0.01</min_depth>
+		<kp>1e15</kp>
+		<kd>1e13</kd>
+              </ode>
+            </contact>
+      </surface>
+
     </collision>
     <inertial>
-      <mass value="0.1" />
+      <mass value="0.05" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
@@ -72,6 +243,7 @@
     <parent link="long_U" />
     <child link="section_1" />
     <axis xyz="0 0 -1" />
+    <dynamics damping="0.7"/>
   </joint>
   <link name="section_2">
     <visual>
@@ -84,13 +256,25 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.025 0 0" rpy="0 1.5707963267949 0" />
+      <origin xyz="0.01 0 0" rpy="0 1.5707963267949 0" />
       <geometry>
-        <cylinder length="0.05" radius="0.02" />
+        <cylinder length="0.02" radius="0.02" />
       </geometry>
+
+      <surface>
+            <contact>
+              <ode>
+                <max_vel>0</max_vel>
+                <min_depth>0.01</min_depth>
+		<kp>1e15</kp>
+		<kd>1e13</kd>
+              </ode>
+            </contact>
+      </surface>
+
     </collision>
     <inertial>
-      <mass value="0.1" />
+      <mass value="0.05" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
@@ -99,6 +283,7 @@
     <parent link="section_1" />
     <child link="section_2" />
     <axis xyz="0 0 -1" />
+    <dynamics damping="0.7"/>
   </joint>
   <link name="section_3">
     <visual>
@@ -115,9 +300,21 @@
       <geometry>
         <cylinder length="0.05" radius="0.02" />
       </geometry>
+
+      <surface>
+            <contact>
+              <ode>
+                <max_vel>0</max_vel>
+                <min_depth>0.01</min_depth>
+		   <kp>1e15</kp>
+		   <kd>1e13</kd>
+              </ode>
+            </contact>
+      </surface>
+
     </collision>
     <inertial>
-      <mass value="0.1" />
+      <mass value="0.05" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
@@ -126,7 +323,10 @@
     <parent link="section_2" />
     <child link="section_3" />
     <axis xyz="0 0 -1" />
+    <dynamics damping="0.7"/>
   </joint>
+
+
   <link name="section_4">
     <visual>
       <xacro:if value="$(arg lamp)">
@@ -145,15 +345,48 @@
         <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
       </material>
     </visual>
+
+    <xacro:if value="$(arg lamp)">
     <collision>
       <origin xyz="0 -0.035 0" rpy="1.5707963267949 0 0" />
       <geometry>
         <cylinder length="0.06" radius="0.02" />
         <box size="0.05 0.02 0.03" />
       </geometry>
+
     </collision>
+  </xacro:if>
+
+      <xacro:if value="$(arg gripper)">
+    <collision>
+      <origin xyz="0 -0.035 0" rpy="1.5707963267949 0 0" />
+      <geometry>
+        <cylinder length="0.06" radius="0.02" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 -0.113 0.015" rpy="0 0 0" />
+      <geometry>
+          <box size="0.03 0.03 0.005" />
+      </geometry>
+
+      <surface>
+            <contact>
+	       <collide_bitmask>0x01</collide_bitmask>
+              <ode>
+                <max_vel>0</max_vel>
+                <min_depth>0.01</min_depth>
+		   <kp>1e15</kp>
+		   <kd>1e13</kd>
+              </ode>
+            </contact>
+      </surface>
+    </collision>
+      </xacro:if>
+
+
     <inertial>
-      <mass value="0.1" />
+      <mass value="0.05" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
@@ -162,6 +395,7 @@
     <parent link="section_3" />
     <child link="section_4" />
     <axis xyz="0 0 1" />
+    <dynamics damping="0.7"/>
   </joint>
   <link name="fixed_tip" />
   <joint name="t7f" type="fixed">
@@ -175,6 +409,9 @@
     </xacro:if>
     <child link="fixed_tip" />
   </joint>
+
+
+
   <link name="section_5">
     <xacro:if value="$(arg lamp)">
       <visual>
@@ -186,14 +423,28 @@
           <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
         </material>
       </visual>
-      <collision>
-        <origin xyz="0 -0.045 0" rpy="1.5707963267949 0 0" />
-        <geometry>
-          <cylinder length="0.06" radius="0.03" />
-          <box size="0.05 0.02 0.03" />
-        </geometry>
-      </collision>
+      <!-- <collision> -->
+      <!--   <origin xyz="0 -0.045 0" rpy="1.5707963267949 0 0" /> -->
+      <!--   <geometry> -->
+      <!--     <cylinder length="0.06" radius="0.03" /> -->
+      <!--     <box size="0.05 0.02 0.03" /> -->
+      <!--   </geometry> -->
+
+      <!-- <surface> -->
+      <!--       <contact> -->
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		<kp>1e15</kp> -->
+      <!-- 		<kd>1e13</kd> -->
+      <!--         </ode> -->
+      <!--       </contact> -->
+      <!-- </surface> -->
+
+      <!-- </collision> -->
     </xacro:if>
+
+
     <xacro:if value="$(arg gripper)">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
@@ -204,18 +455,123 @@
           <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
         </material>
       </visual>
+
+
       <collision>
-        <origin xyz="0 -0.04 0" rpy="-1.5707963267949 0 0" />
+        <origin xyz="-0.015 -0.055 0" rpy="-1.5707963267949 0 0" />
         <geometry>
-          <cylinder length="0.06" radius="0.02" />
+          <box size="0.005 0.03 0.03" />
+          <!-- <cylinder length="0.06" radius="0.02" /> -->
         </geometry>
+
+      <surface>
+            <contact>
+	       <collide_bitmask>0x01</collide_bitmask>
+
+              <ode>
+                <max_vel>0</max_vel>
+                <min_depth>0.01</min_depth>
+      		   <kp>1e15</kp>
+      		   <kd>1e13</kd>
+              </ode>
+            </contact>
+      </surface>
+
       </collision>
+
     </xacro:if>
     <inertial>
-      <mass value="0.1" />
+      <mass value="0.05" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
+
+  <xacro:if value="$(arg gripper)">
+    <link name="dummy_gripper_tip">
+
+      <visual>
+
+        <origin xyz="-0.015 -0.055 0" rpy="-1.5707963267949 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+
+      </visual>
+
+      <inertial>
+      <mass value="0.001" />
+      <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+    </inertial>
+
+      <collision>
+        <origin xyz="-0.015 -0.055 0" rpy="-1.5707963267949 0 0" />
+        <geometry>
+          <box size="0.005 0.03 0.03" />
+          <!-- <cylinder length="0.06" radius="0.02" /> -->
+        </geometry>
+
+      <surface>
+            <contact>
+	       <collide_bitmask>0x01</collide_bitmask>
+
+              <ode>
+                <max_vel>0</max_vel>
+                <min_depth>0.01</min_depth>
+      		   <kp>1e15</kp>
+      		   <kd>1e13</kd>
+              </ode>
+            </contact>
+      </surface>
+
+      </collision>
+
+    </link>
+
+
+    <!-- <joint name="dummy_spring_joint" type="prismatic"> -->
+    <!--   <parent>section_4</parent> -->
+    <!--   <child>dummy_gripper_tip</child> -->
+    <!--   <pose>0 0 0 0 0 0</pose> -->
+    <!--   <axis> -->
+    <!-- 	<limit> -->
+    <!-- 	  <lower>-0.1</lower> -->
+    <!-- 	  <upper>0.1</upper> -->
+    <!-- 	</limit> -->
+    <!-- 	<xyz>0.0 0.0 1.0</xyz> -->
+    <!-- 	<dynamics> -->
+    <!-- 	  <spring_stiffness>2500</spring_stiffness> -->
+    <!-- 	  <spring_reference>0.06</spring_reference> -->
+    <!-- 	  <damping>20.0</damping> -->
+    <!-- 	  <friction>0.75</friction> -->
+    <!-- 	</dynamics> -->
+    <!-- 	<use_parent_model_frame>0</use_parent_model_frame> -->
+    <!--   </axis> -->
+    <!--   <physics> -->
+    <!-- 	<ode> -->
+    <!-- 	  <implicit_spring_damper>1</implicit_spring_damper> -->
+    <!-- 	  <cfm_damping>1</cfm_damping> -->
+    <!-- 	  <limit> -->
+    <!--         <cfm>0</cfm> -->
+    <!--         <erp>0.2</erp> -->
+    <!-- 	  </limit> -->
+    <!-- 	</ode> -->
+    <!--   </physics> -->
+    <!-- </joint> -->
+
+  <joint name="dummy_fixed" type="prismatic">
+  <!-- <joint name="dummy_fixed" type="fixed"> -->
+
+      <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
+      <parent link="section_5" />
+      <child link="dummy_gripper_tip" />
+
+       <axis xyz="0 0 1"/>
+       <limit lower="0" upper="0" effort="1000" velocity="0.0"/>
+  </joint>
+
+  </xacro:if>
+
+
   <joint name="m6" type="continuous">
     <xacro:if value="$(arg lamp)">
       <origin xyz="0 -0.054 0" rpy="0 0 0" />
@@ -227,6 +583,7 @@
     </xacro:if>
     <parent link="section_4" />
     <child link="section_5" />
+    <dynamics damping="0.7"/>
   </joint>
   <xacro:if value="$(arg gripper)">
     <link name="moving_tip" />
@@ -298,7 +655,53 @@
   </transmission>
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/</robotNamespace>
+      <robotNamespace>/ergo_jr</robotNamespace>
+      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
     </plugin>
+
+
   </gazebo>
+
+  <gazebo reference="section_4">
+    <selfCollide>true</selfCollide>
+    <collision>
+    <surface>
+      <friction>
+        <ode>
+	  <mu1>100000.0</mu1>
+	  <mu2>100000.0</mu2>
+	  <minDepth>0.003</minDepth>
+	  <maxVel>0</maxVel>
+          <fdir1>1 1 1</fdir1>
+        </ode>
+      </friction>
+    </surface>
+    </collision>
+  </gazebo>
+
+  <!-- <gazebo reference="section_5"> -->
+  <!--   <selfCollide>true</selfCollide> -->
+  <!-- </gazebo> -->
+
+
+  <gazebo reference="dummy_gripper_tip">
+    <selfCollide>true</selfCollide>
+    <collision>
+    <surface>
+      <friction>
+        <ode>
+	  <mu1>100000.0</mu1>
+	  <mu2>100000.0</mu2>
+	  <minDepth>0.003</minDepth>
+	  <maxVel>0</maxVel>
+          <fdir1>1 1 1</fdir1>
+        </ode>
+      </friction>
+    </surface>
+    </collision>
+
+  </gazebo>
+
+
+
 </robot>
