@@ -198,11 +198,13 @@
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m1" type="continuous">
+  <joint name="m1" type="revolute">
     <origin xyz="0 0 0.0327993216120967" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="long_U" />
     <axis xyz="0 0 1" />
+
+    <limit lower="-3.1416" upper="3.1416" effort="10" velocity="3"/>
 
   </joint>
   <link name="section_1">
@@ -397,6 +399,7 @@
     <axis xyz="0 0 1" />
     <dynamics damping="0.7"/>
   </joint>
+
   <link name="fixed_tip" />
   <joint name="t7f" type="fixed">
     <xacro:if value="$(arg lamp)">
@@ -404,12 +407,13 @@
       <parent link="section_5" />
     </xacro:if>
     <xacro:if value="$(arg gripper)">
-      <origin xyz="0 -0.11 0" rpy="-1.5707963267949 0 0" />
+      <!-- <origin xyz="0 -0.11 0" rpy="-1.5707963267949 0 0" /> -->
+      <origin xyz="0 -0.11 0" rpy="0.0 -1.5707963267949 0" />
+
       <parent link="section_4" />
     </xacro:if>
     <child link="fixed_tip" />
   </joint>
-
 
 
   <link name="section_5">
