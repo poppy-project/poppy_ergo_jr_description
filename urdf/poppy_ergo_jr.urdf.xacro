@@ -84,7 +84,7 @@
           <hackBaseline>0.0</hackBaseline>
 	  <Cx>2.0500638605704751e+02</Cx>
 	  <Cy>1.5106876398089261e+02</Cy>
-	  <focalLength>3.2390967091609349e+02</focalLength>
+	  <focalLength>632.193308</focalLength>
           <distortionK1>1.4043219721770492e-01</distortionK1>
           <distortionK2>-1.3210129724889583e-01</distortionK2>
           <distortionK3>-3.6452869939025279e-01</distortionK3>
@@ -141,16 +141,16 @@
         <cylinder length="0.005" radius="0.08" />
       </geometry>
 
-      <surface>
-            <contact>
-              <ode>
-                <max_vel>0</max_vel>
-                <min_depth>0.01</min_depth>
-		<kp>1e15</kp>
-		<kd>1e13</kd>
-              </ode>
-            </contact>
-      </surface>
+      <!-- <surface> -->
+      <!--       <contact> -->
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		<kp>1e15</kp> -->
+      <!-- 		<kd>1e13</kd> -->
+      <!--         </ode> -->
+      <!--       </contact> -->
+      <!-- </surface> -->
 
     </collision>
 
@@ -181,16 +181,16 @@
         <cylinder length="0.02" radius="0.02" />
       </geometry>
 
-      <surface>
-            <contact>
-              <ode>
-                <max_vel>0</max_vel>
-                <min_depth>0.01</min_depth>
-		<kp>1e15</kp>
-		<kd>1e13</kd>
-              </ode>
-            </contact>
-      </surface>
+      <!-- <surface> -->
+      <!--       <contact> -->
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		<kp>1e15</kp> -->
+      <!-- 		<kd>1e13</kd> -->
+      <!--         </ode> -->
+      <!--       </contact> -->
+      <!-- </surface> -->
 
     </collision>
     <inertial>
@@ -223,16 +223,16 @@
         <cylinder length="0.05" radius="0.02" />
       </geometry>
 
-      <surface>
-            <contact>
-              <ode>
-                <max_vel>0</max_vel>
-                <min_depth>0.01</min_depth>
-		<kp>1e15</kp>
-		<kd>1e13</kd>
-              </ode>
-            </contact>
-      </surface>
+      <!-- <surface> -->
+      <!--       <contact> -->
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		<kp>1e15</kp> -->
+      <!-- 		<kd>1e13</kd> -->
+      <!--         </ode> -->
+      <!--       </contact> -->
+      <!-- </surface> -->
 
     </collision>
     <inertial>
@@ -263,16 +263,16 @@
         <cylinder length="0.02" radius="0.02" />
       </geometry>
 
-      <surface>
-            <contact>
-              <ode>
-                <max_vel>0</max_vel>
-                <min_depth>0.01</min_depth>
-		<kp>1e15</kp>
-		<kd>1e13</kd>
-              </ode>
-            </contact>
-      </surface>
+      <!-- <surface> -->
+      <!--       <contact> -->
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		<kp>1e15</kp> -->
+      <!-- 		<kd>1e13</kd> -->
+      <!--         </ode> -->
+      <!--       </contact> -->
+      <!-- </surface> -->
 
     </collision>
     <inertial>
@@ -303,16 +303,16 @@
         <cylinder length="0.05" radius="0.02" />
       </geometry>
 
-      <surface>
-            <contact>
-              <ode>
-                <max_vel>0</max_vel>
-                <min_depth>0.01</min_depth>
-		   <kp>1e15</kp>
-		   <kd>1e13</kd>
-              </ode>
-            </contact>
-      </surface>
+      <!-- <surface> -->
+      <!--       <contact> -->
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		   <kp>1e15</kp> -->
+      <!-- 		   <kd>1e13</kd> -->
+      <!--         </ode> -->
+      <!--       </contact> -->
+      <!-- </surface> -->
 
     </collision>
     <inertial>
@@ -374,13 +374,13 @@
 
       <surface>
             <contact>
-	       <collide_bitmask>0x01</collide_bitmask>
-              <ode>
-                <max_vel>0</max_vel>
-                <min_depth>0.01</min_depth>
-		   <kp>1e15</kp>
-		   <kd>1e13</kd>
-              </ode>
+      	       <collide_bitmask>0x01</collide_bitmask>
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		   <kp>1e15</kp> -->
+      <!-- 		   <kd>1e13</kd> -->
+      <!--         </ode> -->
             </contact>
       </surface>
     </collision>
@@ -470,14 +470,14 @@
 
       <surface>
             <contact>
-	       <collide_bitmask>0x01</collide_bitmask>
+      	       <collide_bitmask>0x01</collide_bitmask>
 
-              <ode>
-                <max_vel>0</max_vel>
-                <min_depth>0.01</min_depth>
-      		   <kp>1e15</kp>
-      		   <kd>1e13</kd>
-              </ode>
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		   <kp>1e15</kp> -->
+      <!-- 		   <kd>1e13</kd> -->
+      <!--         </ode> -->
             </contact>
       </surface>
 
@@ -516,14 +516,14 @@
 
       <surface>
             <contact>
-	       <collide_bitmask>0x01</collide_bitmask>
+      	       <collide_bitmask>0x01</collide_bitmask>
 
-              <ode>
-                <max_vel>0</max_vel>
-                <min_depth>0.01</min_depth>
-      		   <kp>1e15</kp>
-      		   <kd>1e13</kd>
-              </ode>
+      <!--         <ode> -->
+      <!--           <max_vel>0</max_vel> -->
+      <!--           <min_depth>0.01</min_depth> -->
+      <!-- 		   <kp>1e15</kp> -->
+      <!-- 		   <kd>1e13</kd> -->
+      <!--         </ode> -->
             </contact>
       </surface>
 
@@ -670,12 +670,17 @@
     <selfCollide>true</selfCollide>
     <collision>
     <surface>
+      <contact>
+        <ode>
+	  <min_depth>0.003</min_depth>
+	  <max_vel>0</max_vel>
+        </ode>
+      </contact>
+
       <friction>
         <ode>
-	  <mu1>100000.0</mu1>
+	  <mu>100000.0</mu>
 	  <mu2>100000.0</mu2>
-	  <minDepth>0.003</minDepth>
-	  <maxVel>0</maxVel>
           <fdir1>1 1 1</fdir1>
         </ode>
       </friction>
@@ -691,13 +696,19 @@
   <gazebo reference="dummy_gripper_tip">
     <selfCollide>true</selfCollide>
     <collision>
+
     <surface>
+      <contact>
+        <ode>
+	  <min_depth>0.003</min_depth>
+	  <max_vel>0</max_vel>
+        </ode>
+      </contact>
+
       <friction>
         <ode>
-	  <mu1>100000.0</mu1>
+	  <mu>100000.0</mu>
 	  <mu2>100000.0</mu2>
-	  <minDepth>0.003</minDepth>
-	  <maxVel>0</maxVel>
           <fdir1>1 1 1</fdir1>
         </ode>
       </friction>
