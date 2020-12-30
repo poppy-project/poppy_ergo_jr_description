@@ -135,29 +135,29 @@
         <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="0 0.038 0.0" rpy="0 0 0" />
-      <geometry>
-        <cylinder length="0.005" radius="0.08" />
-      </geometry>
+    <!-- <collision> -->
+    <!--   <origin xyz="0 0.038 0.0" rpy="0 0 0" /> -->
+    <!--   <geometry> -->
+    <!--     <cylinder length="0.005" radius="0.08" /> -->
+    <!--   </geometry> -->
 
-      <!-- <surface> -->
-      <!--       <contact> -->
-      <!--         <ode> -->
-      <!--           <max_vel>0</max_vel> -->
-      <!--           <min_depth>0.01</min_depth> -->
-      <!-- 		<kp>1e15</kp> -->
-      <!-- 		<kd>1e13</kd> -->
-      <!--         </ode> -->
-      <!--       </contact> -->
-      <!-- </surface> -->
+    <!--   <!-\- <surface> -\-> -->
+    <!--   <!-\-       <contact> -\-> -->
+    <!--   <!-\-         <ode> -\-> -->
+    <!--   <!-\-           <max_vel>0</max_vel> -\-> -->
+    <!--   <!-\-           <min_depth>0.01</min_depth> -\-> -->
+    <!--   <!-\- 		<kp>1e15</kp> -\-> -->
+    <!--   <!-\- 		<kd>1e13</kd> -\-> -->
+    <!--   <!-\-         </ode> -\-> -->
+    <!--   <!-\-       </contact> -\-> -->
+    <!--   <!-\- </surface> -\-> -->
 
-    </collision>
+    <!-- </collision> -->
 
     <xacro:if value="${is_fixed == 'false'}">
     <inertial>
-      <mass value="0.250" />
-      <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+      <mass value="0.5" />
+      <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
     </xacro:if>
   </link>
@@ -194,7 +194,7 @@
 
     </collision>
     <inertial>
-      <mass value="0.05" />
+      <mass value="0.01" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
@@ -203,8 +203,41 @@
     <parent link="base_link" />
     <child link="long_U" />
     <axis xyz="0 0 1" />
+    <!-- <dynamics damping="0.7"/> -->
+    <!-- <limit lower="-2.6179938779914944" upper="2.6179938779914944" effort="1" velocity="1" stiffness="1.0e6" dissipation="0"/> -->
+    <limit lower="-2.6179938779914944" upper="2.6179938779914944" effort="1" velocity="0.5"/>
 
-    <limit lower="-3.1416" upper="3.1416" effort="10" velocity="3"/>
+    <!-- <pose frame=''>0 0 0 0 -0 0</pose> -->
+    <!-- <axis> -->
+    <!--     <xyz>0 0 1</xyz> -->
+    <!--     <use_parent_model_frame>0</use_parent_model_frame> -->
+    <!--     <limit> -->
+    <!--       <lower>-2.6179938779914944</lower> -->
+    <!--       <upper>2.6179938779914944</upper> -->
+    <!--       <effort>-1</effort> -->
+    <!--       <velocity>-1</velocity> -->
+    <!--     </limit> -->
+    <!--     <dynamics> -->
+    <!--       <spring_reference>0</spring_reference> -->
+    <!--       <spring_stiffness>0</spring_stiffness> -->
+    <!--       <damping>0</damping> -->
+    <!-- 	  <friction>0</friction> -->
+    <!--     </dynamics> -->
+    <!-- </axis> -->
+
+    <physics>
+      <ode>
+        <limit>
+          <cfm>0.0</cfm>
+          <erp>0.2</erp>
+        </limit>
+	<suspension>
+          <cfm>0.0</cfm>
+          <erp>0.2</erp>
+	</suspension>
+
+      </ode>
+    </physics>
 
   </joint>
   <link name="section_1">
@@ -236,16 +269,18 @@
 
     </collision>
     <inertial>
-      <mass value="0.05" />
+      <mass value="0.01" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m2" type="continuous">
+  <joint name="m2" type="revolute">
     <origin xyz="0 0 0.0240006783879033" rpy="0 -1.5707963267949 0" />
     <parent link="long_U" />
     <child link="section_1" />
     <axis xyz="0 0 -1" />
     <dynamics damping="0.7"/>
+    <limit lower="-1.5707963267948966" upper="2.181661564992912" effort="1" velocity="1"/>
+
   </joint>
   <link name="section_2">
     <visual>
@@ -276,16 +311,18 @@
 
     </collision>
     <inertial>
-      <mass value="0.05" />
+      <mass value="0.01" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m3" type="continuous">
+  <joint name="m3" type="revolute">
     <origin xyz="0.054 0 0" rpy="0 0 0" />
     <parent link="section_1" />
     <child link="section_2" />
     <axis xyz="0 0 -1" />
     <dynamics damping="0.7"/>
+    <limit lower="-1.5707963267948966" upper="1.5707963267948966" effort="1" velocity="1"/>
+
   </joint>
   <link name="section_3">
     <visual>
@@ -316,16 +353,18 @@
 
     </collision>
     <inertial>
-      <mass value="0.05" />
+      <mass value="0.01" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m4" type="continuous">
+  <joint name="m4" type="revolute">
     <origin xyz="0.045 0 0" rpy="0 -1.5707963267949 0" />
     <parent link="section_2" />
     <child link="section_3" />
     <axis xyz="0 0 -1" />
     <dynamics damping="0.7"/>
+    <limit lower="-2.6179938779914944" upper="2.6179938779914944" effort="1" velocity="1"/>
+
   </joint>
 
 
@@ -369,8 +408,9 @@
     <collision>
       <origin xyz="0.0 -0.113 0.015" rpy="0 0 0" />
       <geometry>
-          <box size="0.03 0.03 0.005" />
+          <box size="0.04 0.03 0.005" />
       </geometry>
+
 
       <surface>
             <contact>
@@ -388,16 +428,18 @@
 
 
     <inertial>
-      <mass value="0.05" />
+      <mass value="0.01" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m5" type="continuous">
+  <joint name="m5" type="revolute">
     <origin xyz="0 -0.048 0" rpy="0 -1.5707963267949 0" />
     <parent link="section_3" />
     <child link="section_4" />
     <axis xyz="0 0 1" />
     <dynamics damping="0.7"/>
+    <limit lower="-1.5707963267948966" upper="1.5707963267948966" effort="1" velocity="1"/>
+
   </joint>
 
   <link name="fixed_tip" />
@@ -464,7 +506,7 @@
       <collision>
         <origin xyz="-0.015 -0.055 0" rpy="-1.5707963267949 0 0" />
         <geometry>
-          <box size="0.005 0.03 0.03" />
+          <box size="0.005 0.04 0.03" />
           <!-- <cylinder length="0.06" radius="0.02" /> -->
         </geometry>
 
@@ -485,7 +527,7 @@
 
     </xacro:if>
     <inertial>
-      <mass value="0.05" />
+      <mass value="0.01" />
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
@@ -510,7 +552,7 @@
       <collision>
         <origin xyz="-0.015 -0.055 0" rpy="-1.5707963267949 0 0" />
         <geometry>
-          <box size="0.005 0.03 0.03" />
+          <box size="0.005 0.04 0.03" />
           <!-- <cylinder length="0.06" radius="0.02" /> -->
         </geometry>
 
@@ -576,7 +618,7 @@
   </xacro:if>
 
 
-  <joint name="m6" type="continuous">
+  <joint name="m6" type="revolute">
     <xacro:if value="$(arg lamp)">
       <origin xyz="0 -0.054 0" rpy="0 0 0" />
       <axis xyz="0 0 1" />
@@ -588,6 +630,9 @@
     <parent link="section_4" />
     <child link="section_5" />
     <dynamics damping="0.7"/>
+    <limit lower="-1.9198621771937625" upper="1.5707963267948966" effort="1" velocity="1"/>
+
+
   </joint>
   <xacro:if value="$(arg gripper)">
     <link name="moving_tip" />
