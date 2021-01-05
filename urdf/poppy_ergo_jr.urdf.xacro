@@ -131,9 +131,9 @@
       <geometry>
         <mesh filename="package://poppy_ergo_jr_description/meshes/base.dae" />
       </geometry>
-      <material name="">
-        <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
+      <!-- <material name=""> -->
+      <!--   <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" /> -->
+      <!-- </material> -->
     </visual>
     <!-- <collision> -->
     <!--   <origin xyz="0 0.038 0.0" rpy="0 0 0" /> -->
@@ -382,9 +382,9 @@
           <mesh filename="package://poppy_ergo_jr_description/meshes/section_4.dae" />
         </geometry>
       </xacro:if>
-      <material name="">
-        <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
+      <!-- <material name=""> -->
+      <!--   <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" /> -->
+      <!-- </material> -->
     </visual>
 
     <xacro:if value="$(arg lamp)">
