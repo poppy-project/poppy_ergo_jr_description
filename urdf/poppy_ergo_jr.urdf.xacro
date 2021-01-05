@@ -109,7 +109,7 @@
     max_distance="400"
     noise_mean="0.0"
     noise_stddev="0.001"
-    enable_visual="True"
+    enable_visual="False"
     >
     <!-- <box size="0.01 0.01 0.01" /> -->
     <cylinder length="0.01" radius="0.007" />
