@@ -40,11 +40,12 @@
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m1" type="continuous">
+  <joint name="m1" type="revolute">
     <origin xyz="0 0 0.0327993216120967" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="long_U" />
     <axis xyz="0 0 1" />
+    <limit lower="-0.84" upper="0.84" effort="1" velocity="0.5"/>
   </joint>
   <link name="section_1">
     <visual>
@@ -67,11 +68,12 @@
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m2" type="continuous">
+  <joint name="m2" type="revolute">
     <origin xyz="0 0 0.0240006783879033" rpy="0 -1.5707963267949 0" />
     <parent link="long_U" />
     <child link="section_1" />
     <axis xyz="0 0 -1" />
+    <limit lower="-0.5" upper="0.7" effort="1" velocity="0.5"/>
   </joint>
   <link name="section_2">
     <visual>
@@ -94,11 +96,12 @@
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m3" type="continuous">
+  <joint name="m3" type="revolute">
     <origin xyz="0.054 0 0" rpy="0 0 0" />
     <parent link="section_1" />
     <child link="section_2" />
     <axis xyz="0 0 -1" />
+    <limit lower="-0.5" upper="0.5" effort="1" velocity="0.5"/>
   </joint>
   <link name="section_3">
     <visual>
@@ -121,11 +124,12 @@
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m4" type="continuous">
+  <joint name="m4" type="revolute">
     <origin xyz="0.045 0 0" rpy="0 -1.5707963267949 0" />
     <parent link="section_2" />
     <child link="section_3" />
     <axis xyz="0 0 -1" />
+    <limit lower="-0.84" upper="0.84" effort="1" velocity="0.5"/>
   </joint>
   <link name="section_4">
     <visual>
@@ -157,11 +161,12 @@
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m5" type="continuous">
+  <joint name="m5" type="revolute">
     <origin xyz="0 -0.048 0" rpy="0 -1.5707963267949 0" />
     <parent link="section_3" />
     <child link="section_4" />
     <axis xyz="0 0 1" />
+    <limit lower="-0.5" upper="0.5" effort="1" velocity="0.5"/>
   </joint>
   <link name="fixed_tip" />
   <joint name="t7f" type="fixed">
@@ -216,10 +221,11 @@
       <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
   </link>
-  <joint name="m6" type="continuous">
+  <joint name="m6" type="revolute">
     <xacro:if value="$(arg lamp)">
       <origin xyz="0 -0.054 0" rpy="0 0 0" />
       <axis xyz="0 0 1" />
+      <limit lower="-0.61" upper="0.5" effort="1" velocity="0.5"/>
     </xacro:if>
     <xacro:if value="$(arg gripper)">
       <origin xyz="0 -0.058 0" rpy="0 -1.5707963267949 0" />
