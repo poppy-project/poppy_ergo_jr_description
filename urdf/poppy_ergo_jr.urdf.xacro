@@ -154,12 +154,12 @@
 
     <!-- </collision> -->
 
-    <xacro:if value="${is_fixed == 'false'}">
+    <!-- <xacro:if value="${is_fixed == 'false'}"> -->
     <inertial>
       <mass value="0.5" />
       <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0.0" ixz="0.0" iyz="0.0" />
     </inertial>
-    </xacro:if>
+    <!-- </xacro:if> -->
   </link>
 
 
@@ -408,7 +408,7 @@
     <collision>
       <origin xyz="0.0 -0.113 0.015" rpy="0 0 0" />
       <geometry>
-          <box size="0.04 0.03 0.005" />
+          <box size="0.025 0.03 0.005" />
       </geometry>
 
 
@@ -506,7 +506,7 @@
       <collision>
         <origin xyz="-0.015 -0.055 0" rpy="-1.5707963267949 0 0" />
         <geometry>
-          <box size="0.005 0.04 0.03" />
+          <box size="0.005 0.025 0.03" />
           <!-- <cylinder length="0.06" radius="0.02" /> -->
         </geometry>
 
@@ -552,7 +552,7 @@
       <collision>
         <origin xyz="-0.015 -0.055 0" rpy="-1.5707963267949 0 0" />
         <geometry>
-          <box size="0.005 0.04 0.03" />
+          <box size="0.005 0.025 0.03" />
           <!-- <cylinder length="0.06" radius="0.02" /> -->
         </geometry>
 
@@ -604,8 +604,8 @@
     <!--   </physics> -->
     <!-- </joint> -->
 
-  <joint name="dummy_fixed" type="prismatic">
-  <!-- <joint name="dummy_fixed" type="fixed"> -->
+  <joint name="dummy_fixed" type="fixed">
+  <!-- <joint name="" type="fixed"> -->
 
       <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
       <parent link="section_5" />
@@ -717,7 +717,7 @@
     <surface>
       <contact>
         <ode>
-	  <min_depth>0.003</min_depth>
+	  <min_depth>0.001</min_depth>
 	  <max_vel>0</max_vel>
         </ode>
       </contact>
@@ -745,7 +745,7 @@
     <surface>
       <contact>
         <ode>
-	  <min_depth>0.003</min_depth>
+	  <min_depth>0.001</min_depth>
 	  <max_vel>0</max_vel>
         </ode>
       </contact>
