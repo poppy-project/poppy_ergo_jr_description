@@ -27,7 +27,7 @@
     </inertial>
   </link>
   <joint name="ergo_jr/camera_ergo_joint" type="fixed">
-    <origin rpy="0 -0.39269908169872414 -1.57079632679" xyz="0.0 -0.025 0.02"/>
+    <origin rpy="0 0 -1.57079632679" xyz="0.0 -0.025 0.02"/>
     <parent link="base_link"/>
     <child link="ergo_jr/camera_ergo_link"/>
   </joint>
@@ -35,7 +35,7 @@
     <sensor name="ergo_jr_camera_ergo" type="camera">
       <update_rate>30.0</update_rate>
       <camera name="head">
-        <horizontal_fov>1.12825740656</horizontal_fov>
+        <horizontal_fov>1.3825740656</horizontal_fov>
         <image>
           <width>800</width>
           <height>600</height>
